@@ -7,6 +7,9 @@ import { cn } from "@/lib/utils"
 import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
+import Provider from "app/context/client-provider"
+import { getServerSession } from "next-auth/next"
+import { config } from "app/api/auth/[...nextauth]/route"
 
 export const metadata: Metadata = {
   title: {
@@ -29,7 +32,8 @@ interface RootLayoutProps {
   children: React.ReactNode
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutProps) {
+  const session = await getServerSession(config)
   return (
     <>
       <html lang="en" suppressHydrationWarning>
@@ -40,6 +44,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             fontSans.variable
           )}
         >
+          <Provider session={session}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <div className="relative flex min-h-screen flex-col">
               <SiteHeader />
@@ -47,6 +52,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             </div>
             <TailwindIndicator />
           </ThemeProvider>
+          </Provider>
         </body>
       </html>
     </>
