@@ -29,10 +29,10 @@ export function SiteHeader(): JSX.Element {
               {session.data && (
                 <>
                   <Link href="/profile" className="bg-red-500 p-2 rounded-md">
-                      <Icons.user className="h-5 w-5" />
+                      <Icons.user className="h-5 w-5 text-white" />
                   </Link>
                   <button
-                    className="text-white px-4 py-2 rounded-md"
+                    className="px-4 py-2 rounded-md"
                     onClick={() => signOut()}
                   >
                     <Icons.logout className="h-5 w-5" />
