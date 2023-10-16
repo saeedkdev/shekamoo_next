@@ -1,14 +1,16 @@
-# next-template
+# Shekamoo-next
 
-A Next.js 13 template for building apps with Radix UI and Tailwind CSS.
+Frontend for Shekamoo api -> Persian food calorie tracker
 
-## Usage
+## Template
+
+Started From
 
 ```bash
 npx create-next-app -e https://github.com/shadcn/next-template
 ```
 
-## Features
+## Uses
 
 - Next.js 13 App Directory
 - Radix UI Primitives
