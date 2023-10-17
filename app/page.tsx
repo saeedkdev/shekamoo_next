@@ -61,8 +61,7 @@ export default function IndexPage() {
             onChange={triggerSearch}
             aria-label="Search" />
         </div>
-        <div className="flex gap-4">
-            {isSearching && <p>Searching...</p>}
+        <div className={`flex gap-4 ${isSearching ? 'opacity-10' : ''}`}>
             {results.map((result: any) => (
               <Card key={result.id}>
                 <CardHeader>

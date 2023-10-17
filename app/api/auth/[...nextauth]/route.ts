@@ -2,6 +2,7 @@ import NextAuth from "next-auth"
 import type { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
+
 export const config: NextAuthOptions = {
   providers: [
     GoogleProvider({
@@ -10,7 +11,6 @@ export const config: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    // get google id_token and add it to the user object with types for typescript
     async jwt({ token, user, account }) {
       if (account?.provider === "google" && account?.id_token) {
         token.id_token = account.id_token;
@@ -18,9 +18,9 @@ export const config: NextAuthOptions = {
       return token;
     },
     async session({session, token}) {
-      session.googleId = token.id_token;
+      session.googleId = token.sub as string;
       return session;
-    }
+    },
   },
 
 };
