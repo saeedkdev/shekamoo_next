@@ -11,6 +11,8 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
+import { LogDialog } from "@/components/log-dialog"
+
 const API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT
 
 export default function IndexPage() {
@@ -72,8 +74,9 @@ export default function IndexPage() {
                     <p>{result.amount} {result.unit}</p>
                     <p>calories: {result.calories}</p>
                   </CardDescription>
+                  <LogDialog />
                 </CardContent>
-                <CardFooter className="flex flex-row gap-2">
+                <CardFooter className="flex flex-row gap-2 border pt-5">
                   <p>Protein: {result.protein}g</p>
                   <p>Fat: {result.fat}g</p>
                   <p>Carbohydrates: {result.carbs}g</p>
