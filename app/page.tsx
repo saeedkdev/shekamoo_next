@@ -2,6 +2,9 @@
 
 import { useSession } from "next-auth/react"
 import { useState } from "react"
+
+import { Food } from "@/types/schemas"
+
 import {
   Card,
   CardContent,
@@ -19,7 +22,7 @@ export default function IndexPage() {
   const [searchedFood, setSearchedFood] = useState('')
   const [isSearching, setIsSearching] = useState(false)
 
-  const [results, setResults] = useState([])
+  const [results, setResults] = useState<Food[]>([])
 
   function triggerSearch(event: React.ChangeEvent<HTMLInputElement>) {
     setSearchedFood(event.target.value)
@@ -47,6 +50,7 @@ export default function IndexPage() {
   }
 
   const session = useSession()
+
   return (
     <section className="container grid items-center gap-6 pb-8 pt-6 md:py-10">
       {session.data && (
@@ -74,7 +78,7 @@ export default function IndexPage() {
                     <p>{result.amount} {result.unit}</p>
                     <p>calories: {result.calories}</p>
                   </CardDescription>
-                  <LogDialog />
+                  <LogDialog food={result} googleId={session.data.user.id} />
                 </CardContent>
                 <CardFooter className="flex flex-row gap-2 border pt-5">
                   <p>Protein: {result.protein}g</p>

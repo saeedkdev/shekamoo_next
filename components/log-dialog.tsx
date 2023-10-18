@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -21,7 +22,45 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-export function LogDialog() {
+import { Food, MealType } from "@/types/schemas"
+import { useState } from "react"
+import { useSession } from "next-auth/react"
+
+const API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT
+
+interface LogDialogProps {
+  food: Food
+}
+
+export function LogDialog({ food }: LogDialogProps) {
+
+  const session = useSession()
+  const googleId = session.data?.googleId
+
+  const [mealType, setMealType] = useState<MealType>("snack")
+
+  async function logFood() {
+    const response = await fetch(`${API_ENDPOINT}/meal`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        type: mealType,
+        name: food.name,
+        date: new Date(),
+        foodId: food._id,
+        googleId: googleId
+      })
+    }).then((res) => {
+      if (res.status === 200) {
+        res.json().then((data) => {
+          console.log(data)
+        })
+      }
+    })
+  }
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -32,30 +71,33 @@ export function LogDialog() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Log Food</DialogTitle>
+          <DialogTitle>Log { food.name }</DialogTitle>
           <DialogDescription>
             Select what type of meal you want to log this food for.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-          <Select>
+          <Select onValueChange={(value) => setMealType(value as MealType)}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select a type" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="breakfast">Breakfast</SelectItem>
-                <SelectItem value="lunch">Lunch</SelectItem>
-                <SelectItem value="dinner">Dinner</SelectItem>
-                <SelectItem value="snack">Snack</SelectItem>
+                {Object.entries(MealType).map(([key, value]) => (
+                  <SelectItem value={value} key={key}>
+                    <SelectLabel>{key}</SelectLabel>
+                  </SelectItem>
+                ))}
               </SelectGroup>
             </SelectContent>
           </Select>
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">Log it</Button>
+          <DialogClose asChild>
+            <Button onClick={() => logFood()}>Log</Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
