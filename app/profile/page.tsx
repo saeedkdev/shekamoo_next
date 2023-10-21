@@ -12,6 +12,8 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
+import { Overview } from "@/components/overview"
+
 import { Meal } from "@/types/schemas"
 
 const API_ENDPOINT = process.env.NEXT_PUBLIC_API_ENDPOINT
@@ -48,14 +50,10 @@ export default function ProfilePage() {
       {session.data && (
       <>
         <div className="flex max-w-[980px] flex-col items-start gap-2">
-            {meals && meals.length > 0 && meals.map((meal) => (
-              <Card key={meal._id}>
-                <CardHeader>
-                  <CardTitle>{meal.name}</CardTitle>
-                  <CardDescription>{meal.type}</CardDescription>
-                </CardHeader>
-              </Card>
-            ))}
+            <h1 className="text-4xl font-bold leading-tight text-gray-900 dark:text-gray-100 mb-5">
+              Current Week
+            </h1>
+            <Overview meals={meals}/>
         </div>
       </>
       )}
