@@ -24,3 +24,10 @@ export interface Food {
   carbs: number
   fat: number
 }
+
+export interface Meal {
+  _id: string
+  name: string
+  date: string
+  type: MealType
+}

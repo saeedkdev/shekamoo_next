@@ -78,7 +78,7 @@ export default function IndexPage() {
                     <p>{result.amount} {result.unit}</p>
                     <p>calories: {result.calories}</p>
                   </CardDescription>
-                  <LogDialog food={result} googleId={session.data.user.id} />
+                  <LogDialog food={result} />
                 </CardContent>
                 <CardFooter className="flex flex-row gap-2 border pt-5">
                   <p>Protein: {result.protein}g</p>
